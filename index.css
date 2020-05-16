@@ -1,0 +1,15 @@
+.icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: #9EB1CD;
+  }
+
+  ul{
+    list-style-type: none;
+  display: flex;}
+  
+  li{
+    padding: 0px 10px 0px 0px;
+    cursor: pointer;
+  }
