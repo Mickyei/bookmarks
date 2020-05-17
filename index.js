@@ -17,7 +17,6 @@ const setPosition = ({ top, left }) => {
     toggleMenu('show');
 };
 
-
 const bookmarks = document.getElementById("bookmarkList");
 bookmarks.addEventListener("click", e => {
     toggleMenu("none");
@@ -46,7 +45,6 @@ bookmarks.addEventListener("contextmenu", e => {
 //Delete a bookmark
 const deleteItem = () => {
     if (item != null) item.remove();
-    
 }
 
 //Bring up a prompt to add a new bookmark
@@ -58,7 +56,6 @@ const addItem = () => {
     }
 }
 
-
 //If contextmenu is visible, check if any clicks outside bookmarks list and hide menu
 document.addEventListener('click', function(event) {
     if(menuVisible) {
@@ -67,11 +64,9 @@ document.addEventListener('click', function(event) {
           toggleMenu("none");
         }
     }
- 
 });
 
 const dragStart = (e) => {
-
     //specify target to be allowed to move
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', null);
@@ -79,27 +74,19 @@ const dragStart = (e) => {
 }
 
 const onDragOver = (e) => {
-
     e.preventDefault();
-
     if (selected != e.target) {
-
         //Add a solid line to where the bookmark will be dropped if dropped now
         if (isBefore(selected, e.target)) {
-
             e.target.style.borderTopLeftRadius = "0px"
             e.target.style.borderBottomLeftRadius = "0px"
             e.target.style.borderLeft = "1.5px solid"
         } else {
-
             e.target.style.borderTopRightRadius = "0px"
             e.target.style.borderBottomRightRadius = "0px"
             e.target.style.borderRight = "1.5px solid"
         }
     }
-
-
-
 }
 
 //Remove styling
@@ -111,7 +98,7 @@ const onDragLeave = (e) => {
 const isBefore = (item1, item2) => {
     let current;
     if (item2.parentNode === item1.parentNode) {
-        //Go through previousSiblings and hovered target is one of them
+        //Go through previousSiblings and return true if hovered target is one of them
         for (current = item1.previousSibling; current; current = current.previousSibling) {
             if (current === item2) return true;
         }
@@ -119,25 +106,23 @@ const isBefore = (item1, item2) => {
     return false;
 }
 
+//Insert selected bookmark to it's correct spot
 const onDrop = (e) => {
     e.target.style.borderRadius = "12px"
     e.target.style.border = "none";
-
-    //Check if selected bookmark is before or after the one getting dropped on
     if (isBefore(selected, e.target)) {
         e.target.parentNode.insertBefore(selected, e.target)
     } else {
         e.target.parentNode.insertBefore(selected, e.target.nextSibling)
     }
-
 }
 
 //Clear variables
 const dragEnd = () => {
-
     selected = null;
 }
 
+//Create a new bookmark and append it to the list
 const addBookmark = () => {
     const ul = document.getElementById("bookmarkList");
     const newBookmark = document.getElementById("newBookmark");
