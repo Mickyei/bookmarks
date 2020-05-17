@@ -10,20 +10,21 @@ const toggleMenu = command => {
     menuVisible = !menuVisible;
 };
 
+//Set position of menu
 const setPosition = ({ top, left }) => {
     menu.style.left = `${left}px`;
     menu.style.top = `${top}px`;
     toggleMenu('show');
 };
 
-const newBookmark = document.getElementById("bookmarkList");
 
-newBookmark.addEventListener("click", e => {
-
-    if (menuVisible) toggleMenu("none");
+const bookmarks = document.getElementById("bookmarkList");
+bookmarks.addEventListener("click", e => {
+    toggleMenu("none");
 });
 
-newBookmark.addEventListener("contextmenu", e => {
+//Sets position of menu. Also checks if a bookmark is clicked and makes delete available accordingly.
+bookmarks.addEventListener("contextmenu", e => {
     e.preventDefault();
     item = event.target.closest('.item');
     const deleteButton = document.getElementById("delete");
@@ -34,7 +35,6 @@ newBookmark.addEventListener("contextmenu", e => {
         deleteButton.style.pointerEvents = "auto";
         deleteButton.style.color = 'black';
     }
-    console.log(item);
     const origin = {
         left: e.pageX,
         top: e.pageY - 170
@@ -43,21 +43,32 @@ newBookmark.addEventListener("contextmenu", e => {
     return false;
 });
 
+//Delete a bookmark
 const deleteItem = () => {
     if (item != null) item.remove();
-    toggleMenu("none");
+    
 }
 
+//Bring up a prompt to add a new bookmark
 const addItem = () => {
-    toggleMenu("none");
     const promptText = prompt("Add a new bookmark:");
     if (promptText != null && promptText != "") {
         document.getElementById("newBookmark").value = promptText;
         addBookmark();
     }
-    
-    
 }
+
+
+//If contextmenu is visible, check if any clicks outside bookmarks list and hide menu
+document.addEventListener('click', function(event) {
+    if(menuVisible) {
+        const isClickInside = bookmarks.contains(event.target);
+        if (!isClickInside) {
+          toggleMenu("none");
+        }
+    }
+ 
+});
 
 const dragStart = (e) => {
 
