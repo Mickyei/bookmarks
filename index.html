@@ -12,29 +12,40 @@
     <div id="bookmarks">
 
     
-  <ul class="bar">
-    <li class="item" draggable="true" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondragend="dragEnd()">
+  <ul class="bar" id="bookmarkList">
+    <li class="item" draggable="true" ondragstart="dragStart(event)"
+     ondragover="onDragOver(event)" ondragend="dragEnd()" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
       <span class="icon"></span>
       <span class="item-text">BBC News</span>
     </li>
-    <li class="item" draggable="true" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondragend="dragEnd()">
+    <li class="item" draggable="true" ondragstart="dragStart(event)"
+     ondragover="onDragOver(event)" ondragend="dragEnd()" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
       <span class="icon"></span>
       <span class="item-text">Helsingin Sanomat</span>
     </li>
-    <li class="item" draggable="true" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondragend="dragEnd()">
+    <li class="item" draggable="true" ondragstart="dragStart(event)" 
+    ondragover="onDragOver(event)" ondragend="dragEnd()" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
       <span class="icon"></span>
       <span class="item-text">Vasabladet</span>
     </li>
-    <li class="item" draggable="true" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondragend="dragEnd()">
+    <li class="item" draggable="true" ondragstart="dragStart(event)" 
+    ondragover="onDragOver(event)" ondragend="dragEnd()" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
       <span class="icon"></span>
       <span class="item-text">FOX News</span>
     </li>
-    <li class="item" draggable="true" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondragend="dragEnd()">
+    <li class="item" draggable="true" ondragstart="dragStart(event)" 
+    ondragover="onDragOver(event)" ondragend="dragEnd()" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
       <span class="icon"></span>
       <span class="item-text">The Guardian</span>
     </li>
   </ul>
 </div>
+
+<div id="condiv">
+  <input type="text" id="newBookmark"/>
+  <button onclick="addBookmark()">Add a bookmark</button>
+</div>
+
   <script src="index.js"></script>
 </body>
 </html>

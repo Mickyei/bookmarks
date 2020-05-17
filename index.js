@@ -1,9 +1,9 @@
 let selected = null;
+let hovered = null;
 const bookmarks = document.getElementById("bookmarks");
 
 
 const dragStart = (e) => {
-
 
     //specify target to be allowed to move
     e.dataTransfer.effectAllowed = 'move';
@@ -11,42 +11,77 @@ const dragStart = (e) => {
     selected = e.target;
 }
 
-const dragOver = (e) => {
+const onDragOver = (e) => {
 
-    if (e.target === bookmarks.lastElementChild.lastElementChild) {
-        bookmarks.lastElementChild.appendChild(selected);
+    e.preventDefault();
+    hovered = e.target;
 
-    } else if (isBefore(selected, e.target)) {
-        //Check is selected bookmark is before or after bookmark being hovered over
-        //e.target.parentNode.insertBefore(selected, e.target);
-        if (e.target.nextElementSibling != null && e.target.nextElementSibling.nodeName === 'LI') {
-            bookmarks.lastElementChild.insertBefore(selected, e.target);
-        }
-
+    if (isBefore(selected, e.target)) {
+        //e.target.parentNode.insertBefore(selected, e.target)
+        e.target.style.borderRadius = "0px"
+        e.target.style.borderLeft = "1.5px solid"
     } else {
-        if (e.target.nextElementSibling != null && e.target.nextElementSibling.nodeName === 'LI') {
-
-
-            if (e.target == bookmarks.lastElementChild.lastElementChild) {
-                console.log("Last child")
-            } else {
-                bookmarks.lastElementChild.insertBefore(selected, e.target.nextElementSibling);
-            }
-        }
-
+        //e.target.parentNode.insertBefore(selected, e.target.nextSibling)
+        e.target.style.borderRadius = "0px"
+        e.target.style.borderRight = "1.5px solid"
     }
+
+}
+
+//Remove styling
+const onDragLeave = (e) => {
+    e.target.style.borderRadius = "12px"
+    e.target.style.border = "none";
 }
 
 const isBefore = (item1, item2) => {
-    let cur;
+    let current;
     if (item2.parentNode === item1.parentNode) {
-        for (cur = item1.previousSibling; cur; cur = cur.previousSibling) {
-
-            if (cur === item2) return true;
-        }
+        //Go through previousSiblings and hovered target is one of them
+         for (current = item1.previousSibling; current; current = current.previousSibling) {
+            if (current === item2) return true;
+        } 
     }
     return false;
 }
 
-//Clear selected variable
-const dragEnd = () => selected = null;
+const onDrop = (e) => {
+    e.target.style.borderRadius = "12px"
+    e.target.style.border = "none";
+
+    //Check if selected bookmark is before or after the one getting dropped on
+    if (isBefore(selected, e.target)) {
+        e.target.parentNode.insertBefore(selected, e.target)
+    } else {
+        e.target.parentNode.insertBefore(selected, e.target.nextSibling)
+    }
+
+}
+
+//Clear variables
+const dragEnd = () => {
+
+    selected = null;
+    hovered = null;
+}
+
+const addBookmark = () => {
+    const ul = document.getElementById("bookmarkList");
+    const newBookmark = document.getElementById("newBookmark");
+    const li = document.createElement("li");
+    const icon = document.createElement("span");
+    const text = document.createElement("span");
+    icon.setAttribute('class', 'icon');
+    text.textContent = ' ' + newBookmark.value;
+    li.appendChild(icon);
+    li.appendChild(text);
+    li.setAttribute('class', 'item');
+    li.setAttribute('ondragstart','dragStart(event)');
+    li.setAttribute('ondragleave','onDragLeave(event)');
+    li.setAttribute('ondragover','onDragOver(event)');
+    li.setAttribute('ondragend','dragEnd()');
+    li.setAttribute('ondrop','onDrop(event)');
+    li.draggable = true;
+    ul.appendChild(li);
+    document.getElementById("newBookmark").value = "";
+}
